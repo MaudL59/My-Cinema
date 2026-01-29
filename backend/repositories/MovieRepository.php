@@ -1,47 +1,30 @@
 <?php
-// On inclut le fichier de connexion et le modèle Movie
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../models/Movie.php';
+// MovieRepository.php
 
-class MovieRepository {
+// Le Repository, c'est le "bibliothécaire". Son rôle est d'aller chercher les données dans la base (SQL) et de les transformer en objets Movie (PHP) pour pouvoir utiliser les getters.
+
+class MovieRepository{
     private $pdo;
 
-    public function __construct($pdo) {
-        $this->pdo = $pdo;
+    // le constructeur qui va recevoir la connexion à la base de données pour la stocker dans cette propriété
+    public function __construct($connection){
+        $this -> pdo = $connection;
+
     }
 
-    public function findAll() {
-        $films = [];
-        $stmt = $this->pdo->query("SELECT * FROM Films");
+    // la fonction qui va demander à la base de données tous les films
+    public function findAll(){
         
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $films[] = new Movie(
-                $row['id'], 
-                $row['title'], 
-                $row['annee_sortie'], 
-                $row['duration'],
-                $row['description'],
-                $row['genre']
-            );
-        }
-        return $films;
+        $sql = "SELECT * FROM Movie";
+        // appel de la table movie
+        $statement = $this ->pdo->query($sql); 
+        // renvoie la demande et stocke le résultat dans une variable $statement
+        // Dans ta fonction findAll()
+        return $statement->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'Movie');
+        // Le mode de transport : PDO::FETCH_CLASS veut dire : "Prépare-toi à créer des objets"
+        // Le plan de construction : On lui donne le nom de la classe sous forme de texte : 'Movie'
+        //   renvoie un tableau d'objets Movie
+        
     }
 
-    public function create($title, $annee, $duration) {
-        $sql = "INSERT INTO Films (title, annee_sortie, duration, description, genre) VALUES (:title, :annee, :duration, :description, :genre)";
-        $stmt = $this->pdo->prepare($sql);
-        return $stmt->execute([
-            ':title' => $title,
-            ':annee' => $annee,
-            ':duration' => $duration,
-            ':description' => $description,
-            ':genre' => $genre,
-        ]);
-    } 
-
-    public function delete($id) {
-        $sql = "DELETE FROM Films WHERE id = :id";
-        $stmt = $this->pdo->prepare($sql);
-        return $stmt->execute([':id' => $id]);
-    }
-} 
+}

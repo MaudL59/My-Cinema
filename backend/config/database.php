@@ -1,7 +1,7 @@
 <?php
-// backend/config/database.php
+
 $host = 'localhost';
-$db   = 'my-cinema'; // Le nom de la BASE que tu as créée en premier
+$db   = 'my-cinema'; 
 $user = 'root';
 $pass = ''; 
 

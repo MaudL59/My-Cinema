@@ -1,18 +1,45 @@
 <?php
 class Movie {
-    public $id;
-    public $title;
-    public $annee_sortie;
-    public $duration;
-    public $description;
-    public $genre;
+    private $id;
+    private $title;
+    private $releaseYear;
+    private $duration;
+    private $description;
+    private $genre;
+    private $poster;
 
-    public function __construct($id, $title, $annee_sortie, $duration, $description, $genre) {
+    // C'est un constructeur, il permet d'injecter les données dès la naissance de l'objet.
+    public function __construct($id = null, $title = null, $releaseYear = null, $duration = null, $description = null, $genre = null, $poster = null) {
     $this->id = $id;
     $this->title = $title;
-    $this->annee_sortie = $annee_sortie;
+    $this->releaseYear = $releaseYear;
     $this->duration = $duration;
     $this->description = $description;
     $this->genre = $genre;
+    $this->poster = $poster;
 }
+    // Comme tous est en private on ne peut rien sortir, il faut faire des getters pour chaque propriétés
+
+    public function getId(){
+        return $this -> id;
+    }
+    public function getTitle(){
+        return $this -> title;
+    }
+    public function getReleaseYear(){
+        return $this -> releaseYear;
+    }
+    public function getDuration(){
+        return $this -> duration;
+    }
+    public function getDescription(){
+        return $this -> description;
+    }
+    public function getGenre(){
+        return $this -> genre;
+    }
+    public function getPoster(){
+        return $this -> poster;
+    }
+
 }
