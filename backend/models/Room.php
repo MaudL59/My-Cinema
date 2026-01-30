@@ -1,18 +1,38 @@
 <?php
+// Room.php
 class Room {
-    public $id;
-    public $name;
-    public $capacity;
-    public $type;
-    public $active;
+    private $id;
+    private $name;
+    private $capacity;
+    private $type;
+    private $active;
    
-
-    public function __construct($id, $name, $capacity, $type, $active) {
+    // C'est un constructeur, il permet d'injecter les données dès la naissance de l'objet.
+    
+    public function __construct($id = null, $name = null, $capacity = null, $type = null, $active = null) {
     $this->id = $id;
     $this->name = $name;
     $this->capacity = $capacity;
     $this->type = $type;
     $this->active = $active;
-    
-}
+    }
+
+    // Comme tous est en private on ne peut rien sortir, il faut faire des getters pour chaque propriétés
+
+     public function getId(){
+        return $this -> id;
+    }
+    public function getName(){
+        return $this -> name;
+    }
+    public function getCapacity(){
+        return $this -> capacity;
+    }
+    public function getType(){
+        return $this -> type;
+    }
+    public function getActive(){
+        return $this -> active;
+    }    
+
 }

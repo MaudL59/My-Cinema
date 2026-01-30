@@ -41,5 +41,12 @@ class Movie {
     public function getPoster(){
         return $this -> poster;
     }
+// convertir les minutes en heures et minutes
+    public function getFormattedDuration(){
+        $hours = floor($this->getDuration() / 60);
+        $minutes = $this->getDuration() % 60;
+        $durationString = $hours . "h " . ($minutes > 0 ? $minutes . "min" : "");
+        return $durationString;
+    }
 
 }
