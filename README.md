@@ -20,6 +20,6 @@ pour lancer le serveur xamp
 projet (Cinéma) : sera accessible sur http://localhost:8080/my-cinema/.
 base de données : sera accessible sur http://localhost:8080/phpmyadmin/
 
-http://localhost:8080/my-cinema/backend/index.php
+http://localhost:8080/my-cinema/frontend/index.html
 
 http://localhost:8080/phpmyadmin/index.php?route=/table/structure&db=my-cinema&table=Screenings

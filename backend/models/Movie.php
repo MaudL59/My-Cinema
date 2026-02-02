@@ -1,6 +1,6 @@
 <?php
 // Movie.php
-class Movie {
+class Movie implements JsonSerializable{
     private $id;
     private $title;
     private $releaseYear;
@@ -50,4 +50,15 @@ class Movie {
         return $durationString;
     }
 
-}
+    public function jsonSerialize(): mixed {
+        return [
+            'id'    => $this->id,
+            'title' => $this->title,
+            'releaseYear' => $this->releaseYear,
+            'duration' => $this->getFormattedDuration(),
+            'description' => $this->description,
+            'genre' => $this->genre,
+            'poster' => $this->poster
+        ];
+
+}}

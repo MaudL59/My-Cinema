@@ -1,15 +1,71 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <meta name="MY-CINEMA" content="site box-office pour un cinema" />
+    <title>MY-CINEMA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body>
-    <bouton
-      id="btn-films"
-      class="bg-blue-500 text-white px-4 py-2 rounded"
-    ></bouton>
-    <div class="liste-films"></div>
+  <body class="bg-slate-50 font-sans text-slate-900 flex min-h-screen">
+    <nav
+      class="w-64 bg-indigo-900 text-white shadow-xl flex flex-col fixed h-full z-20"
+    >
+      <div class="p-6 border-b border-indigo-800">
+        <h1 class="text-xl font-bold flex flex-col gap-1">
+          <span class="text-2xl">🎬 My Cinema</span>
+          <span
+            class="text-indigo-300 font-light text-xs uppercase tracking-widest"
+            >Administration</span
+          >
+        </h1>
+      </div>
+
+      <div class="flex flex-col mt-6 px-4 gap-3">
+        <button
+          id="btn-films"
+          class="flex items-center gap-3 px-4 py-3 text-sm font-semibold rounded-lg hover:bg-indigo-800 transition-all cursor-pointer text-left w-full"
+        >
+          <span>🎞️</span> FILMS
+        </button>
+        <button
+          id="btn-rooms"
+          class="flex items-center gap-3 px-4 py-3 text-sm font-semibold rounded-lg hover:bg-indigo-800 transition-all cursor-pointer text-left w-full"
+        >
+          <span>🏛️</span> SALLES
+        </button>
+        <button
+          id="btn-screening"
+          class="flex items-center gap-3 px-4 py-3 text-sm font-semibold rounded-lg shadow-inner cursor-pointer text-left w-full"
+        >
+          <span>📅</span> PLANNING
+        </button>
+      </div>
+
+      <div
+        class="mt-auto p-6 text-xs text-indigo-400 border-t border-indigo-800"
+      >
+        &copy; 2026 My Cinema Admin
+      </div>
+    </nav>
+
+    <main class="flex-1 ml-64 p-10">
+      <div class="max-w-7xl mx-auto">
+        <div id="movie-list" class="hidden"></div>
+
+        <div id="room-list" class="hidden"></div>
+
+        <div
+          id="screening-list"
+          class="flex bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden"
+        ></div>
+      </div>
+    </main>
+
+    <script src="js/movies.js"></script>
+    <script src="js/rooms.js"></script>
+    <script src="js/planning.js"></script>
+
+    <script src="js/index.js"></script>
   </body>
 </html>
