@@ -15,14 +15,24 @@ class ScreeningRepository{
     // la fonction qui va demander à la base de données tous les films
     public function findAll(){
         
-        $sql = "SELECT * FROM Screening";
+        $sql = "SELECT 
+            Screening.id, 
+            Screening.movie_id, 
+            Screening.room_id, 
+            Screening.screening_date, 
+            Movie.title AS title, 
+            Movie.duration AS duration,
+            Room.name AS room_name
+        FROM Screening 
+        JOIN Movie ON Screening.movie_id = Movie.id
+        JOIN Room ON Screening.room_id = Room.id";
         // appel de la table Screening
         $statement = $this ->pdo->query($sql); 
         // renvoie la demande et stocke le résultat dans une variable $statement
         // Dans ta fonction findAll()
         return $statement->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'Screening');
         // Le mode de transport : PDO::FETCH_CLASS veut dire : "Prépare-toi à créer des objets"
-        // Le plan de construction : On lui donne le nom de la classe sous forme de texte : 'MScreening'
+        // Le plan de construction : On lui donne le nom de la classe sous forme de texte : 'Screening'
         //   renvoie un tableau d'objets Screening
         
     }

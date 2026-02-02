@@ -12,6 +12,11 @@ sudo ./xampp-linux-x64-8.2.12-0-installer.run
 
 sur xampp aller sur manage servers et lancer Apache et MYsql si vous avez déja quelque chose sur un apache var/www/html vous devez reconfigurer le apache de XAMPP en changeant Listen 80 en Listen 8080 et le ServerName localhost en ServerName localhost:8080
 
+sur un terminal taper:
+
+sudo /opt/lampp/manager-linux-x64.run
+
+pour lancer le serveur xamp
 projet (Cinéma) : sera accessible sur http://localhost:8080/my-cinema/.
 base de données : sera accessible sur http://localhost:8080/phpmyadmin/
 

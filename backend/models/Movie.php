@@ -1,4 +1,5 @@
 <?php
+// Movie.php
 class Movie {
     private $id;
     private $title;
