@@ -31,11 +31,26 @@ if ($action === 'getMovies') {
     echo json_encode($data);
     exit;
 }
-
-if ($action === 'getScreenings') {
-    $repo = new ScreeningRepository($pdo);
+if ($action === 'getRooms'){
+    $repo = new RoomRepository($pdo);
     $data = $repo->findAll();
     echo json_encode($data);
+    exit;
+}
+
+if ($action === 'getScreenings') {
+    $controller = new ScreeningController();
+    $weeklyPlanning = $controller->index($pdo); // Organise les données par date
+    echo json_encode($weeklyPlanning);
+    exit;
+}
+
+// bouton suprimer
+if ($action === 'deleteMovie'){
+    $id = $_GET['id'];
+    $repo = new MovieRepository($pdo);
+    $repo->delete($id);
+    echo json_encode(['success' => true]);
     exit;
 }
 

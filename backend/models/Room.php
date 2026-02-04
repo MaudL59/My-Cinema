@@ -1,6 +1,7 @@
 <?php
 // Room.php
-class Room {
+
+class Room implements JsonSerializable {
     private $id;
     private $name;
     private $capacity;
@@ -33,6 +34,16 @@ class Room {
     }
     public function getActive(){
         return $this -> active;
-    }    
+    }   
+    
+   public function jsonSerialize(): mixed {
+        return [
+            'id'       => $this->id,
+            'name'     => $this->name,
+            'capacity' => $this->capacity,
+            'type'     => $this->type,
+            'active'   => $this->active
+        ];
+    }
 
 }

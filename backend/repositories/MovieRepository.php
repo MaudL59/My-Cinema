@@ -19,12 +19,21 @@ class MovieRepository{
         // appel de la table movie
         $statement = $this ->pdo->query($sql); 
         // renvoie la demande et stocke le résultat dans une variable $statement
-        // Dans ta fonction findAll()
+        
         return $statement->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'Movie');
         // Le mode de transport : PDO::FETCH_CLASS veut dire : "Prépare-toi à créer des objets"
         // Le plan de construction : On lui donne le nom de la classe sous forme de texte : 'Movie'
         //   renvoie un tableau d'objets Movie
         
+    }
+
+    public function delete($id){
+        // 1. On définit la requête
+        $sql = "DELETE FROM Movie WHERE id = :id";
+        // 2. On la prépare
+        $statement = $this->pdo->prepare($sql);
+        // 3. On l'exécute en liant l'ID
+        $statement->execute(['id' => $id]);
     }
 
 }

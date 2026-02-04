@@ -19,7 +19,7 @@ class RoomRepository{
         // appel de la table Room
         $statement = $this ->pdo->query($sql); 
         // renvoie la demande et stocke le résultat dans une variable $statement
-        // Dans ta fonction findAll()
+        
         return $statement->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'Room');
         // Le mode de transport : PDO::FETCH_CLASS veut dire : "Prépare-toi à créer des objets"
         // Le plan de construction : On lui donne le nom de la classe sous forme de texte : 'Room'
