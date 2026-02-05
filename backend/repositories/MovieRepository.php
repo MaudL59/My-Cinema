@@ -36,4 +36,33 @@ class MovieRepository{
         $statement->execute(['id' => $id]);
     }
 
+    public function save($id, $title, $releaseYear, $duration, $description, $genre, $poster) {
+    if (empty($id)) {
+        $sql ="INSERT INTO Movie (title, releaseYear, duration, description, genre, poster) VALUES (:title, :releaseYear, :duration, :description, :genre, :poster)";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([
+            'title' => $title,
+            'releaseYear' => $releaseYear,
+            'duration' => $duration,
+            'description' => $description,
+            'genre' => $genre,
+            'poster' => $poster
+            ]);
+        
+    } else   {
+        $sql = "UPDATE Movie SET title = :title, releaseYear = :releaseYear, duration = :duration, description = :description, genre = :genre, poster = :poster WHERE id = :id";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([
+        'id'          => $id, 
+        'title'       => $title,
+        'releaseYear' => $releaseYear,
+        'duration'    => $duration,
+        'description' => $description,
+        'genre'       => $genre,
+        'poster'      => $poster
+    ]);
+    }return true;
+}
+
 }

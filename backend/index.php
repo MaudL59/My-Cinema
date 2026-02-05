@@ -54,3 +54,22 @@ if ($action === 'deleteMovie'){
     exit;
 }
 
+// Enregistrer les modifications
+
+if ($action === 'saveMovie') {
+    // 1. Récupération des données envoyées par le formulaire
+    $id = $_POST['id'] ?? null;
+    $title = $_POST['title'];
+    $releaseYear = $_POST['releaseYear'];
+    $duration = $_POST['duration'];
+    $description = $_POST['description'];
+    $genre = $_POST['genre'];
+    $poster = $_POST['poster'];
+
+    $repo = new MovieRepository($pdo);
+    
+    $repo->save($id, $title, $releaseYear, $duration, $description, $genre, $poster);
+
+    echo json_encode(['success' => true]);
+    exit;
+}

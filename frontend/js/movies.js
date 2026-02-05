@@ -3,12 +3,14 @@
 const movieForm = document.getElementById("movie-form");
 const movieModal = document.getElementById("movie-modal");
 const btnClose = document.getElementById("close-modal");
+let allMovies = [];
+const container = document.getElementById("movie-list");
 
 function fetchMovies() {
   fetch("../backend/index.php?action=getMovies")
     .then((response) => response.json())
     .then((movies) => {
-      const container = document.getElementById("movie-list");
+      allMovies = movies;
       container.innerHTML = "";
 
       movies.forEach((movie) => {
@@ -24,6 +26,7 @@ function fetchMovies() {
             <div class="p-4 flex flex-col flex-grow bg-white z-10">
                 <h2 class="font-bold text-lg mb-1 truncate">${movie.title}</h2>
                 <p class="text-xs text-indigo-600 font-medium">${movie.genre}</p>
+                <p class="text-xs text-black font-medium">${movie.releaseYear}</p>
             </div>
             <div class="p-4 border-t border-slate-100 flex justify-between gap-2">
                 <button 
@@ -41,28 +44,30 @@ function fetchMovies() {
     `;
       });
       console.log(movies);
-      container.addEventListener("click", (e) => {
-        const deleteBtn = e.target.closest(".delete-movie-btn");
-        const editBtn = e.target.closest(".edit-movie-btn");
-        // Bouton Suprimer
-        if (deleteBtn) {
-          const id = deleteBtn.dataset.id;
-          //   Confirmation pour suprimer
-          if (confirm("Supprimer ce film ?")) {
-            deleteMovie(id);
-          }
-        }
-        // Bouton Modifier
-        if (editBtn) {
-          const id = editBtn.dataset.id;
-          // On cherche le film correspondant dans le tableau 'movies'
-          const movieToEdit = movies.find((m) => m.id == id);
-          showModal(movieToEdit);
-        }
-      });
     })
     .catch((error) => console.error("Erreur :", error));
 }
+
+container.addEventListener("click", (e) => {
+  const deleteBtn = e.target.closest(".delete-movie-btn");
+  const editBtn = e.target.closest(".edit-movie-btn");
+  // Bouton Suprimer
+  if (deleteBtn) {
+    const id = deleteBtn.dataset.id;
+    //   Confirmation pour suprimer
+    if (confirm("Supprimer ce film ?")) {
+      deleteMovie(id);
+    }
+  }
+  // Bouton Modifier
+  if (editBtn) {
+    const id = editBtn.dataset.id;
+    // On cherche le film correspondant dans le tableau 'movies'
+    const movieToEdit = allMovies.find((m) => m.id == id);
+    showModal(movieToEdit);
+  }
+});
+
 document.getElementById("open-add-modal").addEventListener("click", () => {
   showModal(); // On n'envoie rien, donc le formulaire sera vide
 });
@@ -79,9 +84,9 @@ function showModal(movie = null) {
   const descInput = document.getElementById("movie-description-input");
   const genreInput = document.getElementById("movie-genre-input");
   const imgInput = document.getElementById("movie-img-input");
-
+  console.log("Objet movie complet :", movie);
   if (movie) {
-    // --- MODE MODIFICATION ---
+    // --- MODIFICATION ---
     title.textContent = "Modifier le film";
     idInput.value = movie.id;
     titleInput.value = movie.title;
@@ -90,8 +95,10 @@ function showModal(movie = null) {
     descInput.value = movie.description;
     genreInput.value = movie.genre;
     imgInput.value = movie.poster;
+    const duree = movie.duration || movie.Duration || "";
+    durationInput.value = duree;
   } else {
-    // --- MODE AJOUT ---
+    // --- AJOUT ---
     title.textContent = "Ajouter un film";
     idInput.value = "";
     titleInput.value = "";
@@ -113,6 +120,7 @@ function deleteMovie(id) {
         fetchMovies();
       }
     });
+  console.log("Données du film :", movie);
 }
 
 movieForm.addEventListener("submit", (e) => {
@@ -152,4 +160,8 @@ movieForm.addEventListener("submit", (e) => {
       }
     })
     .catch((error) => console.error("Erreur :", error));
+});
+
+btnClose.addEventListener("click", () => {
+  movieModal.classList.add("hidden");
 });
