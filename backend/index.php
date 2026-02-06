@@ -23,53 +23,46 @@ require_once './services/ScreeningService.php';
 require_once './config/database.php';
 
 
-$action = isset($_GET['action']) ? $_GET['action'] : '';
 
-if ($action === 'getMovies') {
-    $repo = new MovieRepository($pdo);
-    $data = $repo->findAll();
-    echo json_encode($data);
-    exit;
+$action = $_GET['action'] ?? '';
+
+// les contrôleurs
+$movieCtrl = new MovieController($pdo);
+$roomCtrl = new RoomController($pdo);
+$screeningCtrl = new ScreeningController();
+
+switch ($action) {
+    case 'getMovies':
+        $movieCtrl->index();
+        break;
+        
+    case 'saveMovie':
+        $movieCtrl->save();
+        break;
+        
+    case 'deleteMovie':
+        $movieCtrl->delete($_GET['id']);
+        break;
+
+    case 'getRooms':
+        $roomCtrl->index();
+        break;
+        
+    case 'saveRoom':
+        $roomCtrl->save();
+        break;
+        
+    case 'deleteRoom':
+        $roomCtrl->delete($_GET['id']);
+        break;
+
+    case 'getScreenings':
+        $screeningCtrl->index($pdo);
+        break;
+
+    default:
+        // Optionnel : message si l'action n'existe pas
+        break;
 }
-if ($action === 'getRooms'){
-    $repo = new RoomRepository($pdo);
-    $data = $repo->findAll();
-    echo json_encode($data);
-    exit;
-}
 
-if ($action === 'getScreenings') {
-    $controller = new ScreeningController();
-    $weeklyPlanning = $controller->index($pdo); // Organise les données par date
-    echo json_encode($weeklyPlanning);
-    exit;
-}
-
-// bouton suprimer
-if ($action === 'deleteMovie'){
-    $id = $_GET['id'];
-    $repo = new MovieRepository($pdo);
-    $repo->delete($id);
-    echo json_encode(['success' => true]);
-    exit;
-}
-
-// Enregistrer les modifications
-
-if ($action === 'saveMovie') {
-    // 1. Récupération des données envoyées par le formulaire
-    $id = $_POST['id'] ?? null;
-    $title = $_POST['title'];
-    $releaseYear = $_POST['releaseYear'];
-    $duration = $_POST['duration'];
-    $description = $_POST['description'];
-    $genre = $_POST['genre'];
-    $poster = $_POST['poster'];
-
-    $repo = new MovieRepository($pdo);
-    
-    $repo->save($id, $title, $releaseYear, $duration, $description, $genre, $poster);
-
-    echo json_encode(['success' => true]);
-    exit;
-}
+exit;

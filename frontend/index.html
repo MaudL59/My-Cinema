@@ -7,12 +7,16 @@
     <title>MY-CINEMA</title>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body class="bg-slate-50 font-sans text-slate-900 flex min-h-screen">
+  <body
+    class="bg-slate-50 font-sans text-slate-900 flex max-sm:flex-col min-h-screen"
+  >
     <nav
-      class="w-64 bg-indigo-900 text-white shadow-xl flex flex-col fixed h-full z-20"
+      class="w-64 bg-indigo-900 text-white shadow-xl flex flex-col fixed h-full max-sm:relative max-sm:w-full max-sm:h-auto max-sm:flex-row z-10"
     >
       <div class="p-6 border-b border-indigo-800">
-        <h1 class="text-xl font-bold flex flex-col gap-1">
+        <h1
+          class="text-xl font-bold flex flex-col max-sm:items-baseline max-sm:gap-2 gap-1"
+        >
           <span class="text-2xl">🎬 My Cinema</span>
           <span class="text-white font-light text-xs uppercase tracking-widest"
             >Administration</span
@@ -20,7 +24,9 @@
         </h1>
       </div>
 
-      <div class="flex flex-col mt-6 px-4 gap-3">
+      <div
+        class="flex flex-col max-sm:flex-row max-sm:mt-2 max-sm:px-2 gap-3 max-sm:gap-1"
+      >
         <button
           id="btn-films"
           class="flex items-center gap-3 px-4 py-3 text-sm font-semibold rounded-lg hover:bg-indigo-800 transition-all cursor-pointer text-left w-full"
@@ -41,12 +47,14 @@
         </button>
       </div>
 
-      <div class="mt-auto p-6 text-xs text-white border-t border-indigo-800">
+      <div
+        class="mt-auto p-6 text-xs text-white border-t border-indigo-800 max-sm:hidden"
+      >
         &copy; 2026 My Cinema Admin
       </div>
     </nav>
 
-    <main class="flex-1 ml-64 p-10">
+    <main class="flex-1 ml-64 p-10 max-sm:ml-0 max-sm:p-4">
       <div class="max-w-7xl mx-auto">
         <div
           class="flex justify-between items-center mb-6 container mx-auto px-4"
@@ -65,7 +73,7 @@
         </div>
         <div
           id="movie-list"
-          class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 container mx-auto px-4 py-8"
+          class="hidden grid grid-cols-4 max-sm:grid-cols-2 gap-8 max-sm:gap-4 container mx-auto px-4 py-8"
         ></div>
         <div
           class="flex justify-between items-center mb-6 container mx-auto px-4"
@@ -76,7 +84,7 @@
             Liste des Salles
           </h2>
           <button
-            id="open-add-modal"
+            id="add-salle"
             class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-lg font-bold text-sm shadow-lg transition-all flex items-center gap-2"
           >
             <span class="text-white">+</span> AJOUTER UNE SALLE
@@ -95,7 +103,7 @@
             Le planning des Séances
           </h2>
           <button
-            id="open-add-modal"
+            id="add-seance"
             class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-lg font-bold text-sm shadow-lg transition-all flex items-center gap-2"
           >
             <span class="text-white">+</span> AJOUTER UNE SEANCE
@@ -109,7 +117,7 @@
         </div>
       </div>
     </main>
-
+    <!-- ajouter un film aavec formulaire-->
     <div
       id="movie-modal"
       class="fixed inset-0 bg-slate-900/50 z-50 hidden flex items-center justify-center"
@@ -187,6 +195,136 @@
             <button
               type="button"
               id="close-modal"
+              class="px-4 py-2 text-slate-500"
+            >
+              Annuler
+            </button>
+            <button
+              type="submit"
+              class="bg-indigo-600 text-white px-4 py-2 rounded-lg"
+            >
+              Enregistrer
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- ajouter une salle avec formulaire-->
+    <div
+      id="room-modal"
+      class="fixed inset-0 bg-slate-900/50 z-50 hidden flex items-center justify-center"
+    >
+      <div class="bg-white rounded-xl shadow-2xl p-8 w-full max-w-md">
+        <h3 id="room-name" class="text-xl font-bold mb-4">Ajouter une salle</h3>
+
+        <form id="room-form" class="flex flex-col gap-4">
+          <input type="hidden" id="room-id" name="id" />
+          <div>
+            <label for="room-name-input" class="block text-sm font-medium mb-1"
+              >Nom de Salle</label
+            >
+            <input
+              type="text"
+              id="room-name-input"
+              name="name"
+              class="w-full border p-2 rounded-lg"
+            />
+
+            <label
+              for="room-capacity-input"
+              class="block text-sm font-medium mb-1"
+              >Capacité</label
+            >
+            <input
+              type="number"
+              id="room-capacity-input"
+              name="capacity"
+              class="w-full border p-2 rounded-lg"
+            />
+
+            <label for="room-type-input" class="block text-sm font-medium mb-1"
+              >Type</label
+            >
+            <input
+              type="text"
+              id="room-type-input"
+              name="type"
+              class="w-full border p-2 rounded-lg"
+            />
+          </div>
+
+          <div class="flex justify-end gap-3 mt-4">
+            <button
+              type="button"
+              id="close-room"
+              class="px-4 py-2 text-slate-500"
+            >
+              Annuler
+            </button>
+            <button
+              type="submit"
+              class="bg-indigo-600 text-white px-4 py-2 rounded-lg"
+            >
+              Enregistrer
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div
+      id="screening-modal"
+      class="fixed inset-0 bg-slate-900/50 z-50 hidden flex items-center justify-center"
+    >
+      <div class="bg-white rounded-xl shadow-2xl p-8 w-full max-w-md">
+        <h3 id="screening-name" class="text-xl font-bold mb-4">
+          Ajouter une salle
+        </h3>
+
+        <form id="screening-form" class="flex flex-col gap-4">
+          <input type="hidden" id="screening-id" name="id" />
+          <div>
+            <label
+              for="screening-name-input"
+              class="block text-sm font-medium mb-1"
+              >Nom de Salle</label
+            >
+            <input
+              type="text"
+              id="screening-name-input"
+              name="name"
+              class="w-full border p-2 rounded-lg"
+            />
+
+            <label
+              for="screening-capacity-input"
+              class="block text-sm font-medium mb-1"
+              >Capacité</label
+            >
+            <input
+              type="number"
+              id="screening-capacity-input"
+              name="capacity"
+              class="w-full border p-2 rounded-lg"
+            />
+
+            <label
+              for="screening-type-input"
+              class="block text-sm font-medium mb-1"
+              >Type</label
+            >
+            <input
+              type="text"
+              id="screening-type-input"
+              name="type"
+              class="w-full border p-2 rounded-lg"
+            />
+          </div>
+
+          <div class="flex justify-end gap-3 mt-4">
+            <button
+              type="button"
+              id="close-screening"
               class="px-4 py-2 text-slate-500"
             >
               Annuler

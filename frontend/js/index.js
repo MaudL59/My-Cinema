@@ -16,11 +16,18 @@ btnFilmAffiche.addEventListener("click", () => {
 const btnSalle = document.getElementById("btn-rooms");
 const listeSalles = document.getElementById("room-list");
 
+// AFFICHER LES SALLES
 btnSalle.addEventListener("click", () => {
+  // On cache les autres sections
+  listeFilms.classList.add("hidden");
+  listeSeances.classList.add("hidden");
+
+  // On bascule l'affichage de la salle (Si ouvert -> ferme, Si fermé -> ouvre)
   listeSalles.classList.toggle("hidden");
 
+  // On ne charge les données que si on vient d'ouvrir la section
   if (!listeSalles.classList.contains("hidden")) {
-    fetchRooms(); // Cette fonction sera écrite dans ton fichier rooms.js
+    fetchRooms();
   }
 });
 

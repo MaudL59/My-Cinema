@@ -27,4 +27,34 @@ class RoomRepository{
         
     }
 
+   public function saveRoom($id, $name, $capacity, $type) {
+    if ($id) {
+        $sql = "UPDATE Room SET name = :name, capacity = :capacity, type = :type WHERE id = :id";
+        $params = [
+            'id' => $id, 
+            'name' => $name, 
+            'capacity' => $capacity, 
+            'type' => $type
+        ];
+    } else {
+        $sql = "INSERT INTO Room (name, capacity, type, active) VALUES (:name, :capacity, :type, 1)";
+        $params = [
+            'name' => $name, 
+            'capacity' => $capacity, 
+            'type' => $type
+        ];
+    }
+
+    // Ajouter ou modifier
+    $statement = $this->pdo->prepare($sql);
+    $statement->execute($params);
 }
+
+public function deleteRoom($id) {
+    $sql = "DELETE FROM Room WHERE id = :id";
+    $statement = $this->pdo->prepare($sql);
+    $statement->execute(['id' => $id]);
+}
+
+
+    }
