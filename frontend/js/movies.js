@@ -84,6 +84,7 @@ function showModal(movie = null) {
   const descInput = document.getElementById("movie-description-input");
   const genreInput = document.getElementById("movie-genre-input");
   const imgInput = document.getElementById("movie-img-input");
+  // const duree = movie.duration || movie.Duration || "";
   console.log("Objet movie complet :", movie);
   if (movie) {
     // --- MODIFICATION ---
@@ -91,12 +92,12 @@ function showModal(movie = null) {
     idInput.value = movie.id;
     titleInput.value = movie.title;
     yearInput.value = movie.releaseYear;
-    durationInput.value = movie.duration;
     descInput.value = movie.description;
     genreInput.value = movie.genre;
     imgInput.value = movie.poster;
-    const duree = movie.duration || movie.Duration || "";
-    durationInput.value = duree;
+    durationInput.value = movie.duration_raw || 0;
+
+    console.log("Valeur injectée dans le champ durée :", movie.duration_raw);
   } else {
     // --- AJOUT ---
     title.textContent = "Ajouter un film";

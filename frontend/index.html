@@ -43,7 +43,7 @@
           id="btn-screening"
           class="flex items-center gap-3 px-4 py-3 text-sm font-semibold rounded-lg shadow-inner cursor-pointer text-left w-full"
         >
-          <span>📅</span> PLANNING
+          <span>📅</span> SÉANCES
         </button>
       </div>
 
@@ -104,6 +104,7 @@
           </h2>
           <button
             id="add-seance"
+            onclick="showScreeningModal()"
             class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-lg font-bold text-sm shadow-lg transition-all flex items-center gap-2"
           >
             <span class="text-white">+</span> AJOUTER UNE SEANCE
@@ -274,64 +275,63 @@
 
     <div
       id="screening-modal"
-      class="fixed inset-0 bg-slate-900/50 z-50 hidden flex items-center justify-center"
+      class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50"
     >
-      <div class="bg-white rounded-xl shadow-2xl p-8 w-full max-w-md">
-        <h3 id="screening-name" class="text-xl font-bold mb-4">
-          Ajouter une salle
-        </h3>
+      <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md">
+        <h2 class="text-2xl font-bold mb-6">Programmer une séance</h2>
 
-        <form id="screening-form" class="flex flex-col gap-4">
-          <input type="hidden" id="screening-id" name="id" />
-          <div>
-            <label
-              for="screening-name-input"
-              class="block text-sm font-medium mb-1"
-              >Nom de Salle</label
+        <form id="screening-form">
+          <input type="hidden" name="id" id="screening-id" />
+          <div class="flex flex-col gap-2">
+            <label for="screening-movie-id" class="text-sm font-semibold"
+              >Film :</label
             >
-            <input
-              type="text"
-              id="screening-name-input"
-              name="name"
-              class="w-full border p-2 rounded-lg"
-            />
-
-            <label
-              for="screening-capacity-input"
-              class="block text-sm font-medium mb-1"
-              >Capacité</label
+            <select
+              id="screening-movie-id"
+              name="movie_id"
+              class="p-2 border rounded-lg bg-white"
             >
-            <input
-              type="number"
-              id="screening-capacity-input"
-              name="capacity"
-              class="w-full border p-2 rounded-lg"
-            />
-
-            <label
-              for="screening-type-input"
-              class="block text-sm font-medium mb-1"
-              >Type</label
-            >
-            <input
-              type="text"
-              id="screening-type-input"
-              name="type"
-              class="w-full border p-2 rounded-lg"
-            />
+              <option value="">-- Choisir un film --</option>
+            </select>
           </div>
 
-          <div class="flex justify-end gap-3 mt-4">
+          <div class="flex flex-col gap-2 mt-4">
+            <label for="screening-room-id" class="text-sm font-semibold"
+              >Salle :</label
+            >
+            <select
+              id="screening-room-id"
+              name="room_id"
+              class="p-2 border rounded-lg bg-white"
+            >
+              <option value="">-- Choisir une salle --</option>
+            </select>
+          </div>
+
+          <div class="flex flex-col gap-2 mt-4">
+            <label for="screening-start-time" class="text-sm font-semibold"
+              >Heure de début :</label
+            >
+            <input
+              type="datetime-local"
+              id="screening-start-time"
+              name="screening_date"
+              class="p-2 border rounded-lg"
+            />
+          </div>
+          <div class="flex flex-col gap-4"></div>
+
+          <div class="flex justify-end gap-3 mt-8">
             <button
               type="button"
-              id="close-screening"
-              class="px-4 py-2 text-slate-500"
+              onclick="closeScreeningModal()"
+              class="px-4 py-2 border rounded-lg"
             >
               Annuler
             </button>
             <button
               type="submit"
-              class="bg-indigo-600 text-white px-4 py-2 rounded-lg"
+              class="px-4 py-2 bg-indigo-600 text-white rounded-lg font-bold"
             >
               Enregistrer
             </button>
@@ -342,7 +342,7 @@
 
     <script src="js/movies.js"></script>
     <script src="js/rooms.js"></script>
-    <script src="js/planning.js"></script>
+    <script src="js/screenings.js"></script>
 
     <script src="js/index.js"></script>
   </body>

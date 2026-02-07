@@ -56,6 +56,7 @@ class Movie implements JsonSerializable{
             'title' => $this->title,
             'releaseYear' => $this->releaseYear,
             'duration' => $this->getFormattedDuration(),
+            'duration_raw' => $this->duration,
             'description' => $this->description,
             'genre' => $this->genre,
             'poster' => $this->poster

@@ -37,4 +37,53 @@ class ScreeningRepository{
         
     }
 
+    public function findByRoom($room_id) {
+    // On sélectionne tout de screening et la durée de movie
+    // s est un racourci de screening
+    $sql = "SELECT s.*, m.duration 
+            FROM Screening s
+            JOIN Movie m ON s.movie_id = m.id
+            WHERE s.room_id = :room_id";
+
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute(['room_id' => $room_id]);
+
+    return $stmt->fetchAll(PDO::FETCH_CLASS, 'Screening');
+}
+
+public function save($id, $movie_id, $room_id, $screening_date) {
+    if (empty($id)) {
+        // NOUVELLE SÉANCE
+        $sql = "INSERT INTO Screening (movie_id, room_id, screening_date) 
+                VALUES (:movie_id, :room_id, :screening_date)";
+        
+        $params = [
+            'movie_id'       => $movie_id, 
+            'room_id'        => $room_id, 
+            'screening_date' => $screening_date
+        ];
+    } else {
+        // MODIFICATION SÉANCE
+        $sql = "UPDATE Screening 
+                SET movie_id = :movie_id, room_id = :room_id, screening_date = :screening_date 
+                WHERE id = :id";
+        
+        $params = [
+            'id'             => $id,
+            'movie_id'       => $movie_id, 
+            'room_id'        => $room_id, 
+            'screening_date' => $screening_date
+        ];
+    }
+
+    $stmt = $this->pdo->prepare($sql);
+    return $stmt->execute($params);
+}
+
+public function delete($id) {
+    $sql = "DELETE FROM Screening WHERE id = :id";
+    $stmt = $this->pdo->prepare($sql);
+    return $stmt->execute(['id' => $id]);
+}
+
 }

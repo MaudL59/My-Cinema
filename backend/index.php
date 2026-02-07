@@ -60,8 +60,17 @@ switch ($action) {
         $screeningCtrl->index($pdo);
         break;
 
+    case 'saveScreening':
+        $screeningCtrl->saveScreening($pdo);
+        break;
+        
+    case 'deleteScreening':
+    $controller = new ScreeningController();
+    $controller->deleteScreening($pdo);
+    break;
+
     default:
-        // Optionnel : message si l'action n'existe pas
+        
         break;
 }
 

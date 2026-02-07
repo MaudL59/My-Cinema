@@ -28,4 +28,6 @@ class MovieController {
         $this->repo->delete($id);
         echo json_encode(['success' => true]);
     }
+
+    
 }

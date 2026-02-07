@@ -1,6 +1,6 @@
 <?php
 // MovieRepository.php
-
+require_once 'models/Movie.php';
 // Le Repository, c'est le "bibliothécaire". Son rôle est d'aller chercher les données dans la base (SQL) et de les transformer en objets Movie (PHP) pour pouvoir utiliser les getters.
 
 class MovieRepository{
@@ -63,6 +63,26 @@ class MovieRepository{
         'poster'      => $poster
     ]);
     }return true;
+}
+
+public function findById($id) {
+    $sql = "SELECT * FROM Movie WHERE id = :id";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute(['id' => $id]);
+    
+    $data = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    if (!$data) return null;
+
+    return new Movie(
+        $data['id'],
+        $data['title'],
+        $data['releaseYear'],
+        $data['duration'], 
+        $data['description'],
+        $data['genre'],
+        $data['poster']
+    );
 }
 
 }
