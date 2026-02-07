@@ -6,14 +6,14 @@ const btnClose = document.getElementById("close-modal");
 let allMovies = [];
 const container = document.getElementById("movie-list");
 
-function fetchMovies() {
-  fetch("../backend/index.php?action=getMovies")
+function fetchMovies(page = 1) {
+  fetch(`../backend/index.php?action=getMovies&page=${page}`)
     .then((response) => response.json())
-    .then((movies) => {
-      allMovies = movies;
+    .then((data) => {
+      allMovies = data.movies;
       container.innerHTML = "";
 
-      movies.forEach((movie) => {
+      data.movies.forEach((movie) => {
         container.innerHTML += `
         <div class="group relative bg-white rounded-xl shadow-md overflow-hidden flex flex-col h-full border border-slate-200 transition-all duration-300">
             <div class="relative aspect-[2/3] overflow-hidden">
@@ -43,9 +43,10 @@ function fetchMovies() {
         </div>
     `;
       });
-      console.log(movies);
+      console.log(data.movies);
+      renderPagination(data.totalPages, data.currentPage);
     })
-    .catch((error) => console.error("Erreur :", error));
+    .catch((error) => console.error("Erreur pagination", error));
 }
 
 container.addEventListener("click", (e) => {
@@ -69,7 +70,7 @@ container.addEventListener("click", (e) => {
 });
 
 document.getElementById("open-add-modal").addEventListener("click", () => {
-  showModal(); // On n'envoie rien, donc le formulaire sera vide
+  showModal();
 });
 
 function showModal(movie = null) {
@@ -166,3 +167,29 @@ movieForm.addEventListener("submit", (e) => {
 btnClose.addEventListener("click", () => {
   movieModal.classList.add("hidden");
 });
+
+function renderPagination(totalPages, currentPage) {
+  const paginationContainer = document.getElementById("pagination-container");
+  paginationContainer.innerHTML = ""; // On vide avant de reconstruire
+
+  for (let i = 1; i <= totalPages; i++) {
+    const btn = document.createElement("button");
+    btn.textContent = i;
+
+    const activeClasses = "bg-indigo-600 text-white shadow-lg";
+    const inactiveClasses =
+      "bg-white text-indigo-600 hover:bg-indigo-50 border border-slate-200";
+
+    btn.className = `px-4 py-2 rounded-lg font-bold transition-all ${
+      i === currentPage ? activeClasses : inactiveClasses
+    }`;
+
+    btn.onclick = () => {
+      console.log("Clic sur la page :", i);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      fetchMovies(i);
+    };
+
+    paginationContainer.appendChild(btn);
+  }
+}

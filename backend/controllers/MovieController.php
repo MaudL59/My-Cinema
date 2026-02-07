@@ -6,9 +6,26 @@ class MovieController {
         $this->repo = new MovieRepository($pdo);
     }
 
-    public function index() {
-        $data = $this->repo->findAll();
-        echo json_encode($data);
+    public function index() {   
+        // pour afficher tous les films dans le formulaire des seances   
+        if (!isset($_GET['page'])) {
+        $allMovies = $this->repo->findAll();
+        echo json_encode(['movies' => $allMovies]);
+        return; // On s'arrête là
+    }
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        $limit = 8; 
+        $offset = ($page - 1) * $limit;
+    
+        $movies = $this->repo->findPaginated($limit, $offset);
+        $totalMovies = $this->repo->countAll();
+        $totalPages = ceil($totalMovies / $limit);
+   
+        echo json_encode([
+            'movies' => $movies,
+            'totalPages' => $totalPages,
+            'currentPage' => $page
+    ]);
     }
 
     public function save() {
@@ -29,5 +46,7 @@ class MovieController {
         echo json_encode(['success' => true]);
     }
 
-    
+   
 }
+
+    

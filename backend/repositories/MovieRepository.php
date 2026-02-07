@@ -85,4 +85,34 @@ public function findById($id) {
     );
 }
 
+// pagination des films
+
+public function findPaginated($limit, $offset) {
+    $sql = "SELECT * FROM Movie LIMIT :limit OFFSET :offset";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $movies = [];
+
+    foreach ($rows as $data) {
+        $movies[] = new Movie(
+            $data['id'],
+            $data['title'],
+            $data['releaseYear'],
+            $data['duration'],
+            $data['description'],
+            $data['genre'],
+            $data['poster']
+        );
+    }
+    return $movies;
+}
+
+public function countAll() {
+    return $this->pdo->query("SELECT COUNT(*) FROM Movie")->fetchColumn();
+}
+
 }

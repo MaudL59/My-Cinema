@@ -1,6 +1,14 @@
 // screening.js
 // fetchScreenings() pour lire le planning
 const screeningForm = document.getElementById("screening-form");
+function formatDateFr(dateString) {
+  const date = new Date(dateString);
+  return new Intl.DateTimeFormat("fr-FR", {
+    weekday: "long", //
+    day: "2-digit",
+    month: "long",
+  }).format(date);
+}
 
 function formatDuration(totalMinutes) {
   const hours = Math.floor(totalMinutes / 60);
@@ -15,48 +23,30 @@ function fetchScreenings() {
       const container = document.getElementById("screening-list");
       container.innerHTML = "";
 
-      const timeGutter = `
-        <div class="w-20 bg-slate-100 border-r border-slate-200 flex flex-col pt-12 text-slate-400 text-[10px] font-bold shrink-0">
-            <div class="h-32 flex flex-col justify-start items-center"><span>11:00</span></div>
-            <div class="h-32 flex flex-col justify-start items-center"><span>14:00</span></div>
-            <div class="h-32 flex flex-col justify-start items-center"><span>17:00</span></div>
-            <div class="h-32 flex flex-col justify-start items-center"><span>20:00</span></div>
-            <div class="h-32 flex flex-col justify-start items-center"><span>23:00</span></div>
-        </div>`;
-
-      container.innerHTML = timeGutter;
-
-      // On boucle sur chaque jour
       Object.entries(planning).forEach(([date, screenings]) => {
+        const dateAffichee = formatDateFr(date);
         let dayHtml = `
-          <div class="flex-1 min-w-[250px] bg-white border-r border-slate-200 p-4">
-            <h3 class="font-bold text-indigo-900 border-b pb-2 mb-4">${date}</h3>
-            <div class="flex flex-col gap-4">`;
-
-        // On boucle sur les séances du jour
+          <div class="flex-1 min-w-[300px] bg-white border border-slate-200 rounded-xl shadow-sm m-2">
+        <div class="bg-indigo-900 text-white p-3 rounded-t-xl text-center font-bold capitalize">
+            ${dateAffichee}
+        </div>
+        <div class="p-4 flex flex-col gap-3">`;
 
         screenings.forEach((s) => {
-          // On récupère l'heure ici, maintenant que "s" existe
-          const dureeFormatee = formatDuration(s.duration);
-          const heureBrute = s.screening_date.split(" ")[1];
-          const heure = heureBrute.substring(0, 5);
-
           dayHtml += `
-        <div class="p-3 bg-slate-50 rounded-lg border border-slate-100 shadow-sm">
-            <p class="font-bold text-sm text-indigo-800 font-weight">${s.title} (${dureeFormatee})</p>
-            <p class="text-xs text-slate-900">🕒 ${heure}</p>
-            <p class="text-xs text-slate-900 italic">${s.room_name}</p>
-            <button onclick="deleteScreening(${s.id})" class="delete-room-btn flex-1 bg-red-50 text-red-600 py-2 rounded-lg text-sm font-semibold hover:bg-red-100 transition-colors">
-    Supprimer
-        </button>
-        </div>`;
+            <div class="border-b border-slate-100 pb-2 last:border-0">
+                <p class="font-bold text-slate-800">${s.title}</p>
+                <p class="text-xs text-slate-500">
+                    🕒 ${s.screening_date.split(" ")[1].substring(0, 5)} — ${s.room_name}
+                </p>
+                <button onclick="deleteScreening(${s.id})" class="text-[10px] text-red-500 hover:underline">Supprimer</button>
+            </div>`;
         });
 
         dayHtml += `</div></div>`;
         container.innerHTML += dayHtml;
       });
-    })
-    .catch((error) => console.error("Erreur planning:", error));
+    });
 }
 
 const movieSelect = document.getElementById("screening-movie-id");
@@ -65,11 +55,10 @@ const roomSelect = document.getElementById("screening-room-id");
 function loadMoviesForSelect() {
   fetch("../backend/index.php?action=getMovies")
     .then((response) => response.json())
-    .then((movies) => {
-      // l'option par défaut
+    .then((data) => {
       movieSelect.innerHTML = '<option value=""> Choisir un film </option>';
 
-      movies.forEach((movie) => {
+      data.movies.forEach((movie) => {
         movieSelect.innerHTML += `<option value="${movie.id}">${movie.title}</option>`;
       });
     });

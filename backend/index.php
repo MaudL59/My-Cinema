@@ -29,12 +29,13 @@ $action = $_GET['action'] ?? '';
 // les contrôleurs
 $movieCtrl = new MovieController($pdo);
 $roomCtrl = new RoomController($pdo);
-$screeningCtrl = new ScreeningController();
+$screeningCtrl = new ScreeningController($pdo);
 
 switch ($action) {
     case 'getMovies':
         $movieCtrl->index();
         break;
+     
         
     case 'saveMovie':
         $movieCtrl->save();
@@ -57,16 +58,17 @@ switch ($action) {
         break;
 
     case 'getScreenings':
-        $screeningCtrl->index($pdo);
-        break;
+        $screeningCtrl = new ScreeningController($pdo);
+        $screeningCtrl->index(); 
+    break;
 
     case 'saveScreening':
-        $screeningCtrl->saveScreening($pdo);
+        $screeningCtrl->saveScreening();
         break;
         
     case 'deleteScreening':
-    $controller = new ScreeningController();
-    $controller->deleteScreening($pdo);
+        $controller = new ScreeningController();
+        $controller->deleteScreening($pdo);
     break;
 
     default:

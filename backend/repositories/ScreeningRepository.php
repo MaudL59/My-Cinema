@@ -25,7 +25,8 @@ class ScreeningRepository{
             Room.name AS room_name
         FROM Screening 
         JOIN Movie ON Screening.movie_id = Movie.id
-        JOIN Room ON Screening.room_id = Room.id";
+        JOIN Room ON Screening.room_id = Room.id
+        ORDER BY screening_date ASC";
         // appel de la table Screening
         $statement = $this ->pdo->query($sql); 
         // renvoie la demande et stocke le résultat dans une variable $statement
@@ -84,6 +85,31 @@ public function delete($id) {
     $sql = "DELETE FROM Screening WHERE id = :id";
     $stmt = $this->pdo->prepare($sql);
     return $stmt->execute(['id' => $id]);
+}
+
+public function isRoomOccupied($roomId, $date) {
+    $sql = "SELECT COUNT(*) FROM Screening WHERE room_id = :room_id AND screening_date = :date";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute(['room_id' => $roomId, 'date' => $date]);
+    return $stmt->fetchColumn() > 0;
+}
+
+public function findAllGroupedByDate() {
+    $sql = "SELECT s.*, m.title, m.duration, r.name as room_name 
+            FROM Screening s
+            JOIN Movie m ON s.movie_id = m.id
+            JOIN Room r ON s.room_id = r.id
+            ORDER BY s.screening_date ASC"; // <--- Tri chronologique total
+    
+    $stmt = $this->pdo->query($sql);
+    $screenings = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $grouped = [];
+    foreach ($screenings as $s) {
+        $date = explode(' ', $s['screening_date'])[0]; // On récupère "2026-02-07"
+        $grouped[$date][] = $s;
+    }
+    return $grouped;
 }
 
 }
