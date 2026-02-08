@@ -2,7 +2,7 @@
 // ScreeningService.php
 
 
-// filtre des horaires, respect de la limite de 5 séances par jour et organisation de tout dans un tableau structuré par date.
+// horaires, respect de la limite de 5 séances par jour et organisation de tout dans un tableau structuré par date
 class ScreeningService{
     public function organizeScreenings($allScreenings){
         $organized = [];

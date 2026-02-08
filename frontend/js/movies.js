@@ -6,6 +6,7 @@ const btnClose = document.getElementById("close-modal");
 let allMovies = [];
 const container = document.getElementById("movie-list");
 
+// affichage film
 function fetchMovies(page = 1) {
   fetch(`../backend/index.php?action=getMovies&page=${page}`)
     .then((response) => response.json())
@@ -48,7 +49,7 @@ function fetchMovies(page = 1) {
     })
     .catch((error) => console.error("Erreur pagination", error));
 }
-
+// les boutons des films
 container.addEventListener("click", (e) => {
   const deleteBtn = e.target.closest(".delete-movie-btn");
   const editBtn = e.target.closest(".edit-movie-btn");
@@ -72,7 +73,7 @@ container.addEventListener("click", (e) => {
 document.getElementById("open-add-modal").addEventListener("click", () => {
   showModal();
 });
-
+// modifiction et ajout film
 function showModal(movie = null) {
   const modal = document.getElementById("movie-modal");
   const title = document.getElementById("modal-title");
@@ -113,7 +114,7 @@ function showModal(movie = null) {
 
   modal.classList.remove("hidden");
 }
-
+// supression films
 function deleteMovie(id) {
   fetch("../backend/index.php?action=deleteMovie&id=" + id)
     .then((response) => response.json())
@@ -124,7 +125,7 @@ function deleteMovie(id) {
     });
   console.log("Données du film :", movie);
 }
-
+// formulaire film
 movieForm.addEventListener("submit", (e) => {
   e.preventDefault();
 
@@ -167,10 +168,10 @@ movieForm.addEventListener("submit", (e) => {
 btnClose.addEventListener("click", () => {
   movieModal.classList.add("hidden");
 });
-
+// carouselle
 function renderPagination(totalPages, currentPage) {
   const paginationContainer = document.getElementById("pagination-container");
-  paginationContainer.innerHTML = ""; // On vide avant de reconstruire
+  paginationContainer.innerHTML = "";
 
   for (let i = 1; i <= totalPages; i++) {
     const btn = document.createElement("button");

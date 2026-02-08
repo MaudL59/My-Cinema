@@ -107,14 +107,14 @@ function showRoomModal(room = null) {
 
   console.log("Objet room complet :", room);
   if (room) {
-    // --- MODIFICATION ---
+    // MODIFICATION SALLE
     name.textContent = "Modifier la salle";
     idInput.value = room.id;
     nameInput.value = room.name;
     capacityInput.value = room.capacity;
     typeInput.value = room.type;
   } else {
-    // --- AJOUT ---
+    // AJOUT SALLE
     name.textContent = "Ajouter une salle";
     idInput.value = "";
     nameInput.value = "";
@@ -124,7 +124,7 @@ function showRoomModal(room = null) {
 
   modal.classList.remove("hidden");
 }
-
+// supression salles
 function deleteRoom(id) {
   fetch("../backend/index.php?action=deleteRoom&id=" + id)
     .then((response) => response.json())

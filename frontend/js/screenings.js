@@ -1,5 +1,5 @@
 // screening.js
-// fetchScreenings() pour lire le planning
+
 const screeningForm = document.getElementById("screening-form");
 function formatDateFr(dateString) {
   const date = new Date(dateString);
@@ -15,7 +15,7 @@ function formatDuration(totalMinutes) {
   const minutes = totalMinutes % 60;
   return `${hours}h${minutes > 0 ? minutes : ""}`;
 }
-
+// affichage seance
 function fetchScreenings() {
   fetch("../backend/index.php?action=getScreenings")
     .then((response) => response.json())
@@ -52,6 +52,7 @@ function fetchScreenings() {
 const movieSelect = document.getElementById("screening-movie-id");
 const roomSelect = document.getElementById("screening-room-id");
 
+// liste des films pour le formulaire de la seance
 function loadMoviesForSelect() {
   fetch("../backend/index.php?action=getMovies")
     .then((response) => response.json())
@@ -64,6 +65,7 @@ function loadMoviesForSelect() {
     });
 }
 
+// liste des sallles pour le formulaire de la seance
 function loadRoomsForSelect() {
   fetch("../backend/index.php?action=getRooms")
     .then((response) => response.json())
@@ -84,7 +86,7 @@ function showScreeningModal() {
   const modal = document.getElementById("screening-modal");
   const form = document.getElementById("screening-form");
 
-  // On vide le formulaire (pour les nouveaux ajouts)
+  // On vide le formulaire
   form.reset();
   document.getElementById("screening-id").value = "";
 
@@ -120,12 +122,17 @@ screeningForm.addEventListener("submit", function (e) {
     .catch((error) => console.error("Erreur enregistrement", error));
 });
 
+// supression de la seance et si supression de la salle ou du film alors suprime le film
+
 function deleteScreening(id) {
   if (confirm("Voulez-vous vraiment supprimer cette séance ?")) {
     fetch(`../backend/index.php?action=deleteScreening&id=${id}`)
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
+          fetchMovies(currentPage);
+        }
+        if (typeof fetchScreenings === "function") {
           fetchScreenings();
         }
       });
