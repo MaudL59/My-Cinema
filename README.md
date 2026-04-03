@@ -1,5 +1,7 @@
 # W-WEB-102-LIL-1-1-my_cinema-11
 
+My cinema est un box office pour un gerant de cinéma pour ajouter/suprimer/modifier des films, ajouter/suprimer/modifier des salles et faire des séances
+
 instalation de XAMPP [apachefriends.org](https://gemini.google.com/app/0f042699ac5eb0f3?hl=fr#:~:text=T%C3%A9l%C3%A9chargement%20%3A-,apachefriends.org,-2.%20Le%20choix)
 
 mettre le fichier telecharger sur le bureau
